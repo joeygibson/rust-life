@@ -16,6 +16,8 @@ pub fn setup_screen() -> EasyCurses {
     screen.set_cursor_visibility(CursorVisibility::Invisible);
     screen.set_echo(false);
     screen.set_color_pair(colorpair!(Green on Black));
+    screen.set_input_mode(InputMode::Character);
+    screen.set_input_timeout(TimeoutMode::Immediate);
     screen
 }
 
@@ -55,6 +57,10 @@ pub fn play(
             display_board(screen, &board);
             screen.refresh();
 
+            if let Some(c) = screen.get_input() {
+                break;
+            }
+
             sleep(wait);
         },
         Some(iterations) => {
@@ -63,6 +69,10 @@ pub fn play(
                 display_board(screen, &board);
                 screen.refresh();
 
+                if let Some(c) = screen.get_input() {
+                    break;
+                }
+                
                 sleep(wait);
             }
         }
