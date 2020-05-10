@@ -1,20 +1,32 @@
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Cell {
     pub alive: bool,
 }
 
 impl Cell {
-    pub fn step(&mut self, neighbors: Vec<&Cell>) {
+    pub fn step(&self, neighbors: Vec<&Cell>) -> Cell {
         let live_count = neighbors.iter().filter(|n| n.alive).count();
 
-        if self.alive {
+        let mut new_cell = self.clone();
+
+        if new_cell.alive {
             if live_count < 2 || live_count > 3 {
-                self.alive = false;
+                new_cell.alive = false;
             }
         } else {
-            if !self.alive && live_count == 3 {
-                self.alive = true;
+            if !new_cell.alive && live_count == 3 {
+                new_cell.alive = true;
             }
+        }
+
+        new_cell
+    }
+
+    pub fn to_printable_char(&self) -> char {
+        if self.alive {
+            '*'
+        } else {
+            ' '
         }
     }
 }
