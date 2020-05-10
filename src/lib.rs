@@ -2,7 +2,7 @@ use std::thread::sleep;
 use std::time::Duration;
 
 use easycurses::*;
-use easycurses::Color::Green;
+use easycurses::Color::White;
 use easycurses::Color::Black;
 use easycurses::constants::acs;
 
@@ -15,7 +15,7 @@ pub fn setup_screen() -> EasyCurses {
 
     screen.set_cursor_visibility(CursorVisibility::Invisible);
     screen.set_echo(false);
-    screen.set_color_pair(colorpair!(Green on Black));
+    screen.set_color_pair(colorpair!(White on Black));
     screen.set_input_mode(InputMode::Character);
     screen.set_input_timeout(TimeoutMode::Immediate);
     screen
@@ -72,7 +72,7 @@ pub fn play(
                 if let Some(c) = screen.get_input() {
                     break;
                 }
-                
+
                 sleep(wait);
             }
         }
