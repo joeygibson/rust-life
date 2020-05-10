@@ -1,10 +1,10 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use easycurses::*;
-use easycurses::Color::White;
-use easycurses::Color::Black;
 use easycurses::constants::acs;
+use easycurses::Color::Black;
+use easycurses::Color::White;
+use easycurses::*;
 
 use crate::entities::board::{new_board, Board};
 
@@ -57,7 +57,7 @@ pub fn play(
             display_board(screen, &board);
             screen.refresh();
 
-            if let Some(c) = screen.get_input() {
+            if screen.get_input().is_some() {
                 break;
             }
 
@@ -69,7 +69,7 @@ pub fn play(
                 display_board(screen, &board);
                 screen.refresh();
 
-                if let Some(c) = screen.get_input() {
+                if screen.get_input().is_some() {
                     break;
                 }
 

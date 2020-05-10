@@ -1,6 +1,8 @@
 # rust-life
 Conway's Game of Life, in Rust.
 
+![Conway's Game Of Life](life.png)
+
 This is a Rust implementation of my [Go implementation](https://github.com/joeygibson/life)
 of [Conway's Game of Life](http://en.wikipedia.org/wiki/Conway%27s_game_of_life). It runs
 in a terminal window, using `ncurses` for drawing.
