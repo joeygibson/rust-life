@@ -47,6 +47,7 @@ pub fn play(
     let mut board = new_board(rows - 2, columns - 2, hacker);
 
     display_board(screen, &board);
+    screen.refresh();
 
     match iterations {
         None => loop {
@@ -86,7 +87,7 @@ fn display_board(screen: &mut EasyCurses, board: &Board) {
         screen.move_rc((ri + 1) as i32, 0);
         screen.print_char(acs::vline());
 
-        for (ci, cell) in row.iter().enumerate() { ;
+        for (ci, cell) in row.iter().enumerate() {
             screen.move_rc((ri + 1) as i32, (ci + 1) as i32);
             screen.print_char(cell.to_printable_char());
         }

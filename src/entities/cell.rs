@@ -9,12 +9,12 @@ impl Cell {
 
         let mut new_cell = self.clone();
 
-        if new_cell.alive {
+        if self.alive {
             if live_count < 2 || live_count > 3 {
                 new_cell.alive = false;
             }
         } else {
-            if !new_cell.alive && live_count == 3 {
+            if !self.alive && live_count == 3 {
                 new_cell.alive = true;
             }
         }

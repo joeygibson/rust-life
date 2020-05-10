@@ -29,30 +29,24 @@ pub fn new_board(rows: i32, columns: i32, hacker: bool) -> Board {
 
 impl Board {
     fn hacker_seed(&mut self) {
-        self.cells[0][2].alive = true;
-        self.cells[1][0].alive = true;
+        self.cells[0][1].alive = true;
         self.cells[1][2].alive = true;
+        self.cells[2][0].alive = true;
         self.cells[2][1].alive = true;
         self.cells[2][2].alive = true;
-
-        eprintln!("board: {:#?}", self);
     }
 
     fn random_seed(&mut self) {
         let mut rng = thread_rng();
 
         let times = rng.gen_range(1, self.rows * self.columns);
-        eprintln!("times: {}", times);
 
         for _ in 0..times {
             let row_num = rng.gen_range(0, self.rows);
             let col_num = rng.gen_range(0, self.columns);
 
-            eprintln!("{}, {}", row_num, col_num);
             self.cells[row_num as usize][col_num as usize].alive = true;
         }
-
-        eprintln!("board: {:#?}", self);
     }
 
     pub fn step(&mut self) {
@@ -76,8 +70,8 @@ impl Board {
     ) -> Vec<&Cell> {
         let mut neighbors: Vec<&Cell> = vec![];
 
-        for i in (-1 as i32)..2 {
-            for j in (-1 as i32)..2 {
+        for i in -1..2 {
+            for j in -1..2 {
                 let mut new_r: i32 = r as i32 + i;
                 let mut new_c: i32 = c as i32 + j;
 
@@ -93,7 +87,7 @@ impl Board {
                     new_c = self.columns - 1;
                 }
 
-                if new_r != (r as i32) && new_c != (c as i32) {
+                if !(new_r == (r as i32) && new_c == (c as i32)) {
                     neighbors.push(&self.cells[new_r as usize][new_c as usize]);
                 }
             }
