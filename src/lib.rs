@@ -83,7 +83,7 @@ pub fn play(
 
 fn display_board(screen: &mut EasyCurses, board: &Board) {
     screen.move_rc(0, 0);
-    screen.insert_char(acs::ulcorner());
+    screen.print_char(acs::ulcorner());
 
     let columns = board.get_columns();
     let rows = board.get_rows();
