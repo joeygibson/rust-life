@@ -4,27 +4,9 @@ use crate::entities::cell::{new_cell, Cell};
 
 #[derive(Debug)]
 pub struct Board {
-    pub rows: i32,
-    pub columns: i32,
+    rows: i32,
+    columns: i32,
     pub cells: Vec<Vec<Cell>>,
-}
-
-pub fn new_board(rows: i32, columns: i32, hacker: bool) -> Board {
-    let cells = create_cells(rows, columns);
-
-    let mut board = Board {
-        rows,
-        columns,
-        cells,
-    };
-
-    if hacker {
-        board.hacker_seed();
-    } else {
-        board.random_seed();
-    }
-
-    board
 }
 
 impl Board {
@@ -39,7 +21,11 @@ impl Board {
     fn random_seed(&mut self) {
         let mut rng = thread_rng();
 
-        let times = rng.gen_range(1, self.rows * self.columns);
+        let mut times = 0;
+
+        while times == 0 {
+            times = rng.gen_range(1, self.rows * self.columns);
+        }
 
         for _ in 0..times {
             let row_num = rng.gen_range(0, self.rows);
@@ -54,7 +40,7 @@ impl Board {
 
         for (ri, row) in self.cells.iter().enumerate() {
             for (ci, cell) in row.iter().enumerate() {
-                let neighbors = self.get_neighbors(  ri, ci);
+                let neighbors = self.get_neighbors(ri, ci);
 
                 new_cells[ri][ci] = cell.step(neighbors);
             }
@@ -63,11 +49,7 @@ impl Board {
         self.cells = new_cells;
     }
 
-    fn get_neighbors(
-        &self,
-        r: usize,
-        c: usize,
-    ) -> Vec<&Cell> {
+    fn get_neighbors(&self, r: usize, c: usize) -> Vec<&Cell> {
         let mut neighbors: Vec<&Cell> = vec![];
 
         for i in -1..2 {
@@ -95,6 +77,32 @@ impl Board {
 
         neighbors
     }
+
+    pub fn get_rows(&self) -> i32 {
+        self.rows
+    }
+
+    pub fn get_columns(&self) -> i32 {
+        self.columns
+    }
+}
+
+pub fn new_board(rows: i32, columns: i32, hacker: bool) -> Board {
+    let cells = create_cells(rows, columns);
+
+    let mut board = Board {
+        rows,
+        columns,
+        cells,
+    };
+
+    if hacker {
+        board.hacker_seed();
+    } else {
+        board.random_seed();
+    }
+
+    board
 }
 
 fn create_cells(rows: i32, columns: i32) -> Vec<Vec<Cell>> {

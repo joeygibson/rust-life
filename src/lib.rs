@@ -85,12 +85,15 @@ fn display_board(screen: &mut EasyCurses, board: &Board) {
     screen.move_rc(0, 0);
     screen.insert_char(acs::ulcorner());
 
-    for j in 0..board.columns {
+    let columns = board.get_columns();
+    let rows = board.get_rows();
+
+    for j in 0..columns {
         screen.move_rc(0, j + 1);
         screen.print_char(acs::hline());
     }
 
-    screen.move_rc(0, board.columns + 1);
+    screen.move_rc(0, columns + 1);
     screen.print_char(acs::urcorner());
 
     for (ri, row) in board.cells.iter().enumerate() {
@@ -102,18 +105,18 @@ fn display_board(screen: &mut EasyCurses, board: &Board) {
             screen.print_char(cell.to_printable_char());
         }
 
-        screen.move_rc((ri + 1) as i32, board.columns + 1);
+        screen.move_rc((ri + 1) as i32, columns + 1);
         screen.print_char(acs::vline());
     }
 
-    screen.move_rc(board.rows + 1, 0);
+    screen.move_rc(rows + 1, 0);
     screen.print_char(acs::llcorner());
 
-    for j in 0..board.columns {
-        screen.move_rc(board.rows + 1, j + 1);
+    for j in 0..columns {
+        screen.move_rc(rows + 1, j + 1);
         screen.print_char(acs::hline());
     }
 
-    screen.move_rc(board.rows + 1, board.columns + 1);
+    screen.move_rc(rows + 1, columns + 1);
     screen.print_char(acs::lrcorner());
 }
