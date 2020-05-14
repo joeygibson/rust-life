@@ -2,20 +2,18 @@ use std::thread::sleep;
 use std::time::Duration;
 
 use easycurses::constants::acs;
-use easycurses::Color::Black;
-use easycurses::Color::White;
 use easycurses::*;
 
 use crate::entities::board::{new_board, Board};
 
 mod entities;
 
-pub fn setup_screen() -> EasyCurses {
+pub fn setup_screen(foreground: Color, background: Color) -> EasyCurses {
     let mut screen = EasyCurses::initialize_system().unwrap();
 
     screen.set_cursor_visibility(CursorVisibility::Invisible);
     screen.set_echo(false);
-    screen.set_color_pair(colorpair!(White on Black));
+    screen.set_color_pair(colorpair!(foreground on background));
     screen.set_input_mode(InputMode::Character);
     screen.set_input_timeout(TimeoutMode::Immediate);
     screen
@@ -119,4 +117,20 @@ fn display_board(screen: &mut EasyCurses, board: &Board) {
 
     screen.move_rc(rows + 1, columns + 1);
     screen.print_char(acs::lrcorner());
+}
+
+pub fn parse_color(f: Option<String>, default: Color) -> Color {
+    match f {
+        None => default,
+        Some(s) => match s.to_lowercase().as_str() {
+            "black" => Color::Black,
+            "red" => Color::Red,
+            "green" => Color::Green,
+            "yellow" => Color::Yellow,
+            "blue" => Color::Blue,
+            "magenta" => Color::Magenta,
+            "cyan" => Color::Cyan,
+            _ => default,
+        },
+    }
 }

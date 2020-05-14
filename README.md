@@ -31,6 +31,10 @@ Options:
     -w, --wait iterations
                         milliseconds to sleep between iterations (default:
                         500)
+    -f, --foreground black, red, green, yellow, blue, magenta, cyan, white [default]
+                        foregound color
+    -b, --background black [default], red, green, yellow, blue, magenta, cyan, white,
+                        background color
     -h, --help          display this help message
 ```
 Once running, press any key to exit.

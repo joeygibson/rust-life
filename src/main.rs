@@ -1,8 +1,9 @@
 use std::env;
 
+use easycurses::Color;
 use getopts::Options;
 
-use rust_life::{play, setup_screen};
+use rust_life::{parse_color, play, setup_screen};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -30,6 +31,20 @@ fn main() {
         "milliseconds to sleep between iterations (default: 500)",
         "iterations",
     );
+
+    opts.optopt(
+        "f",
+        "foreground",
+        "foregound color",
+        "black, red, green, yellow, blue, magenta, cyan, white [default]",
+    );
+    opts.optopt(
+        "b",
+        "background",
+        "background color",
+        "black [default], red, green, yellow, blue, magenta, cyan, white,",
+    );
+
     opts.optflag("h", "help", "display this help message");
 
     let matches = match opts.parse(&args[1..]) {
@@ -76,7 +91,10 @@ fn main() {
         }
     };
 
-    let mut screen = setup_screen();
+    let foreground: Color = parse_color(matches.opt_str("f"), Color::White);
+    let background: Color = parse_color(matches.opt_str("b"), Color::Black);
+
+    let mut screen = setup_screen(foreground, background);
 
     play(&mut screen, columns, rows, iterations, hacker, wait);
 }
