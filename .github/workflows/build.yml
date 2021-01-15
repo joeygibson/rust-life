@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and test
+        run: cargo test --verbose
+      - name: Build for release
+        run: cargo build --verbose --release
+      
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and test
+        run: cargo test --verbose
+      - name: Build for release
+        run: cargo build --verbose --release
